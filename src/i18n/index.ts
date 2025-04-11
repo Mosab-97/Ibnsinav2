@@ -1,0 +1,93 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        translation: {
+          welcome: 'Welcome to',
+          heroDescription: 'Empowering education through technology, fostering innovation, and building futures.',
+          goDashboard: 'Go to Dashboard',
+          keyFeatures: 'Key Features',
+          studentPortal: 'Student Portal',
+          studentPortalDesc: 'Access your courses, track attendance, and view grades in one place.',
+          facultyDashboard: 'Faculty Dashboard',
+          facultyDashboardDesc: 'Manage courses, track student attendance, and post grades efficiently.',
+          attendance: 'Attendance Tracking',
+          attendanceDesc: 'Automated attendance system with real-time updates and reporting.',
+          courses: 'Course Management',
+          coursesDesc: 'Comprehensive course management system for students and faculty.',
+          aboutTitle: 'About MYISU',
+          aboutDescription: 'MYISU is a modern university portal designed to streamline education management and enhance the learning experience for both students and faculty.',
+          allRightsReserved: 'All Rights Reserved',
+          loginTitle: 'Sign in to your account',
+          registerTitle: 'Create your account',
+          email: 'Email address',
+          password: 'Password',
+          confirmPassword: 'Confirm password',
+          fullName: 'Full name',
+          student: 'Student',
+          faculty: 'Faculty',
+          signIn: 'Sign in',
+          register: 'Register',
+          contactUs: 'Contact Us',
+          contactDescription: 'Have questions? We\'d love to hear from you.',
+          name: 'Name',
+          message: 'Message',
+          send: 'Send Message',
+          home: 'Home',
+          dashboard: 'Dashboard',
+          contact: 'Contact',
+          login: 'Login',
+        },
+      },
+      ar: {
+        translation: {
+          welcome: 'مرحباً بكم في',
+          heroDescription: 'تمكين التعليم من خلال التكنولوجيا، وتعزيز الابتكار، وبناء المستقبل.',
+          goDashboard: 'الذهاب إلى لوحة التحكم',
+          keyFeatures: 'المميزات الرئيسية',
+          studentPortal: 'بوابة الطالب',
+          studentPortalDesc: 'الوصول إلى دوراتك، وتتبع الحضور، وعرض الدرجات في مكان واحد.',
+          facultyDashboard: 'لوحة تحكم أعضاء هيئة التدريس',
+          facultyDashboardDesc: 'إدارة الدورات، وتتبع حضور الطلاب، ونشر الدرجات بكفاءة.',
+          attendance: 'تتبع الحضور',
+          attendanceDesc: 'نظام حضور آلي مع تحديثات وتقارير فورية.',
+          courses: 'إدارة الدورات',
+          coursesDesc: 'نظام شامل لإدارة الدورات للطلاب وأعضاء هيئة التدريس.',
+          aboutTitle: 'حول MYISU',
+          aboutDescription: 'MYISU هي بوابة جامعية حديثة مصممة لتبسيط إدارة التعليم وتعزيز تجربة التعلم لكل من الطلاب وأعضاء هيئة التدريس.',
+          allRightsReserved: 'جميع الحقوق محفوظة',
+          loginTitle: 'تسجيل الدخول إلى حسابك',
+          registerTitle: 'إنشاء حساب جديد',
+          email: 'البريد الإلكتروني',
+          password: 'كلمة المرور',
+          confirmPassword: 'تأكيد كلمة المرور',
+          fullName: 'الاسم الكامل',
+          student: 'طالب',
+          faculty: 'عضو هيئة تدريس',
+          signIn: 'تسجيل الدخول',
+          register: 'تسجيل',
+          contactUs: 'اتصل بنا',
+          contactDescription: 'لديك أسئلة؟ نود أن نسمع منك.',
+          name: 'الاسم',
+          message: 'الرسالة',
+          send: 'إرسال الرسالة',
+          home: 'الرئيسية',
+          dashboard: 'لوحة التحكم',
+          contact: 'اتصل بنا',
+          login: 'تسجيل الدخول',
+        },
+      },
+    },
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export default i18n;
