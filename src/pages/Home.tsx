@@ -1,12 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { GraduationCap, Users, Calendar, BookOpen } from 'lucide-react';
+import Navbar from '../components/Navbar';  // Import the Navbar component
 
 const Home = () => {
   const { t } = useTranslation();
 
   return (
     <div className="min-h-screen">
+      {/* Navbar */}
+      <Navbar />  {/* Add the Navbar component here */}
+
       {/* Hero Section */}
       <section 
         className="h-screen bg-cover bg-center relative"
@@ -94,3 +98,4 @@ const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, titl
 );
 
 export default Home;
+

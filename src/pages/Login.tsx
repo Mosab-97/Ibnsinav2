@@ -1,77 +1,84 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { LogIn } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Login = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement Supabase authentication
-    console.log('Login attempt:', { email, password });
+    const { email, password } = formData;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setMessage('Login failed: ' + error.message);
+      return;
+    }
+
+    if (!data.user?.email_confirmed_at) {
+      setMessage('Please verify your email before logging in.');
+      return;
+    }
+
+    const { data: profile } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', data.user.id)
+      .single();
+
+    if (!profile) {
+      setMessage('Profile not found.');
+      return;
+    }
+
+    if (profile.role === 'student') {
+      navigate('/student-dashboard');
+    } else {
+      navigate('/faculty-dashboard');
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {t('loginTitle')}
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                {t('email')}
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder={t('email')}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                {t('password')}
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder={t('password')}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className="h-5 w-5 text-white" aria-hidden="true" />
-              </span>
-              {t('signIn')}
-            </button>
-          </div>
-        </form>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-gray-100 p-6 rounded shadow space-y-4"
+      >
+        <h2 className="text-2xl font-bold">Login</h2>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          className="w-full p-2 border rounded"
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          className="w-full p-2 border rounded"
+          onChange={handleChange}
+          required
+        />
+        <button className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+          Login
+        </button>
+        {message && <p className="text-sm text-red-600">{message}</p>}
+      </form>
     </div>
   );
 };
 
 export default Login;
+
